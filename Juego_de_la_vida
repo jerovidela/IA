@@ -17,7 +17,7 @@ dimCH = height / nyC
 gameState = np.zeros((nxC,nyC))
 for y in range(0, nxC):
     for x in range(0, nyC):
-             gameState[x, y] = random.randint(0,1)
+             gameState[x, y] = random.randint(0,1)  #Se genera aleatoriamente
 
 
 
