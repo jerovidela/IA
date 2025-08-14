@@ -8,6 +8,7 @@ pygame.init()
 height, width = 500, 500
 
 screen = pygame.display.set_mode((height, width))
+pygame.display.set_caption("Juego de la Vida")
 
 bg = 25, 25, 25
 screen.fill(bg)
