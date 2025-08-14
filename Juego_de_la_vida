@@ -5,7 +5,7 @@ import random
 #Tener en cuenta que para poder correr el juego es necesario instalar la librería pygame y la librería numpy
 
 pygame.init()
-width, height = 500, 500
+height, width = 500, 500
 
 screen = pygame.display.set_mode((height, width))
 
