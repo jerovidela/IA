@@ -3,7 +3,7 @@ import heapq
 
 # Configuración
 WIDTH, HEIGHT = 600, 600
-ROWS, COLS = 15, 15
+ROWS, COLS = 16, 16
 CELL_SIZE = WIDTH // COLS
 
 # Colores
