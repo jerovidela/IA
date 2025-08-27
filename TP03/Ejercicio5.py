@@ -5,23 +5,23 @@ import math
 
 # ======== Configuración inicial ========
 WIDTH, HEIGHT = 300, 300
-LINE_WIDTH = 5
-CELL_SIZE = WIDTH // 3
+LINE_WIDTH = 5          # Grosor de las líneas del tablero
+CELL_SIZE = WIDTH // 3      # Tamaño de cada celda
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 pygame.init()
-FONT = pygame.font.SysFont(None, 60)
+FONT = pygame.font.SysFont(None, 60)        # Fuente para dibujar X y O
 
 # ======== Funciones básicas del Ta-te-ti ========
 def draw_board(screen, board):
     screen.fill(WHITE)
-    # Dibujar líneas
+    # Dibujar líneas horizontales y verticales
     for i in range(1, 3):
         pygame.draw.line(screen, BLACK, (0, CELL_SIZE*i), (WIDTH, CELL_SIZE*i), LINE_WIDTH)
         pygame.draw.line(screen, BLACK, (CELL_SIZE*i, 0), (CELL_SIZE*i, HEIGHT), LINE_WIDTH)
-    # Dibujar X y O
+    # Dibujar X y O en las celdas
     for i in range(9):
         row, col = divmod(i, 3)
         x = col * CELL_SIZE + CELL_SIZE // 2
@@ -32,7 +32,7 @@ def draw_board(screen, board):
         elif board[i] == "O":
             text = FONT.render("O", True, BLACK)
             screen.blit(text, text.get_rect(center=(x, y)))
-    pygame.display.flip()
+    pygame.display.flip()           # Actualiza la pantalla
 
 def check_winner(board, player):
     win_states = [
@@ -40,7 +40,7 @@ def check_winner(board, player):
         [0,3,6],[1,4,7],[2,5,8],  # columnas
         [0,4,8],[2,4,6]           # diagonales
     ]
-    return any(all(board[pos] == player for pos in line) for line in win_states)
+    return any(all(board[pos] == player for pos in line) for line in win_states)   # Verifica si el jugador ha ganado
 
 def is_full(board):
     return all(cell != " " for cell in board)
