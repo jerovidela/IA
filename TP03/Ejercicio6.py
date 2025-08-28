@@ -1,3 +1,4 @@
+# Importar funciones
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ N_BOXES = len(weights)
 # ========== PARÁMETROS DEL ALGORITMO GENÉTICO ==========
 POPULATION_SIZE = 20   # Tamaño de la población (número de individuos, debe ser par)
 MUTATION_RATE = 0.1    # Probabilidad de mutación de cada gen
-MAX_GENERATIONS = 100  # Número máximo de generaciones
+MAX_GENERATIONS = 50  # Número máximo de generaciones
 ELITISM_COUNT = 2      # Número de mejores individuos que pasan directamente (elitismo)
 
 # ========== REPRESENTACIÓN DE UN INDIVIDUO ==========
@@ -40,17 +41,16 @@ def create_individual():
 def calculate_weight(individual):                                                   #Devuelve el peso total de las cajas seleccionadas (los 1s del cromosoma)
     return sum(weights[i] for i in range(N_BOXES) if individual[i] == 1)
 
-def calculate_price(individual):
-    """Devuelve el precio total de las cajas seleccionadas."""
+def calculate_price(individual):                                        #Devuelve el precio total de las cajas seleccionadas
     return sum(prices[i] for i in range(N_BOXES) if individual[i] == 1)
 
 # ========== POBLACIÓN INICIAL ==========
-def create_population():
+def create_population():                                                    #Genera una población inicial de individuos válidos
     """Genera una población inicial de individuos válidos."""
     return [create_individual() for _ in range(POPULATION_SIZE)]
 
 # ========== FUNCIÓN DE FITNESS ==========
-def evaluate_fitness(individual):
+def evaluate_fitness(individual):                   
     """
     Calcula la idoneidad (fitness) del individuo:
     - Si el peso excede el límite → fitness = 0
@@ -108,7 +108,7 @@ def mutate(individual):
     """
     for i in range(N_BOXES):
         if random.random() < MUTATION_RATE:
-            individual[i] = 1 - individual[i]  # flip bit
+            individual[i] = 1 - individual[i]  # voltea el bit
     
     # Reparación: si excede peso, eliminar cajas hasta que sea válido
     total_weight = calculate_weight(individual)
