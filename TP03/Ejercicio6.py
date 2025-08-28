@@ -16,7 +16,7 @@ N_BOXES = len(weights)
 # ========== PARÁMETROS DEL ALGORITMO GENÉTICO ==========
 POPULATION_SIZE = 20   # Tamaño de la población (número de individuos, debe ser par)
 MUTATION_RATE = 0.1    # Probabilidad de mutación de cada gen
-MAX_GENERATIONS = 50  # Número máximo de generaciones
+MAX_GENERATIONS = 10  # Número máximo de generaciones
 ELITISM_COUNT = 2      # Número de mejores individuos que pasan directamente (elitismo)
 
 # ========== REPRESENTACIÓN DE UN INDIVIDUO ==========

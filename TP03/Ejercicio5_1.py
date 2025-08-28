@@ -70,28 +70,28 @@ def enhanced_evaluate(board):
 
         # Jugada ganadora inminente
         if values.count("O") == 2 and values.count(" ") == 1:
-            score += 100  # Mayor prioridad a movimientos ganadores
+            score += 50
         if values.count("X") == 2 and values.count(" ") == 1:
-            score -= 90   # Bloquear al oponente es crucial
+            score -= 40           #Valor negativo para bloquear
 
         # Posiciones intermedias
         if values.count("O") == 1 and values.count(" ") == 2:
             score += 5
         if values.count("X") == 1 and values.count(" ") == 2:
-            score -= 4
+            score -= 3
 
-    # Bonificación por centro (la posición más fuerte)
+    # Bonificación por centro
     if board[4] == "O":
-        score += 20
+        score += 10
     elif board[4] == "X":
-        score -= 15
+        score -= 5
 
     # Bonificación por esquinas
     for i in [0, 2, 6, 8]:
         if board[i] == "O":
             score += 7
         elif board[i] == "X":
-            score -= 5
+            score -= 4
 
     return score
 
@@ -108,11 +108,8 @@ def neighbors(board, player):
 def simulated_annealing(board, player, T_init=10, alpha=0.95, steps=500):
     current_board = board[:]
     current_eval = enhanced_evaluate(current_board)
-    
-    # Mejor estado global encontrado
-    best_board = current_board[:]
-    best_eval = current_eval
     best_move = None
+    best_eval = current_eval
     
     T = T_init
     
@@ -133,10 +130,7 @@ def simulated_annealing(board, player, T_init=10, alpha=0.95, steps=500):
         if delta > 0:
             # Siempre aceptar mejoras
             current_board, current_eval = new_board, new_eval
-            # Actualizar el mejor global si es necesario
-            if new_eval > best_eval:
-                best_board, best_eval = new_board[:], new_eval
-                best_move = move_idx
+            best_move, best_eval = move_idx, new_eval
         else:
             # Aceptar empeoras con probabilidad basada en temperatura
             probability = math.exp(delta / T) if T > 0 else 0
@@ -146,21 +140,19 @@ def simulated_annealing(board, player, T_init=10, alpha=0.95, steps=500):
         # Enfriar la temperatura
         T = max(T * alpha, 0.01)
     
-    # Si encontramos un movimiento bueno, usarlo
-    if best_move is not None:
-        return best_move
-    
     # Si no se encontró un movimiento, elegir aleatoriamente
-    empty_cells = [i for i in range(9) if board[i] == " "]
-    if empty_cells:
-        return random.choice(empty_cells)
+    if best_move is None:
+        empty_cells = [i for i in range(9) if board[i] == " "]
+        if empty_cells:
+            return random.choice(empty_cells)
+        return -1  # No hay movimientos posibles
     
-    return -1  # No hay movimientos posibles
+    return best_move
 
 # ======== Juego principal ========
-def play_game(T_init, alpha=0.95, steps=500):  # Corregido: usar steps=500 consistentemente
+def play_game(T_init, alpha=0.95, steps=50):
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption(f"Ta-te-ti - Recocido Simulado (T={T_init}, Steps={steps})")
+    pygame.display.set_caption(f"Ta-te-ti - Recocido Simulado (T={T_init})")
 
     board = [" "] * 9
     turn = "X"  # Jugador empieza
@@ -173,8 +165,6 @@ def play_game(T_init, alpha=0.95, steps=500):  # Corregido: usar steps=500 consi
         screen.fill(WHITE)
         info_text = SMALL_FONT.render(f"Temperatura: {T_init}", True, BLACK)
         screen.blit(info_text, (10, 10))
-        steps_text = SMALL_FONT.render(f"Steps: {steps}", True, BLACK)
-        screen.blit(steps_text, (10, 40))
         
         draw_board(screen, board)
         
@@ -264,7 +254,7 @@ def main():
     temperatures = [1, 10, 100]  # Diferentes temperaturas a probar
     current_temp_index = 0
     alpha = 0.95  # Factor de enfriamiento
-    steps = 500   # Número de iteraciones (ahora consistentemente 500)
+    steps = 100   # Número de iteraciones
     
     restart = True
     while restart:
