@@ -15,7 +15,7 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
 pygame.init()
-FONT = pygame.font.SysFont(None, 60)
+FONT = pygame.font.SysFont(None, 40)
 SMALL_FONT = pygame.font.SysFont(None, 30)
 
 # ======== Funciones básicas del Ta-te-ti ========
@@ -82,9 +82,9 @@ def enhanced_evaluate(board):
 
     # Bonificación por centro (la posición más fuerte)
     if board[4] == "O":
-        score += 20
+        score += 50
     elif board[4] == "X":
-        score -= 15
+        score -= 75
 
     # Bonificación por esquinas
     for i in [0, 2, 6, 8]:
