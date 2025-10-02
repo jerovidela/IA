@@ -90,9 +90,3 @@ nx.draw_networkx_edges(G, pos, edgelist=policy_edges, edge_color='red', width=2,
 plt.title("Política óptima aprendida con Q-Learning")
 plt.axis('off')
 plt.show()
-
-import ace_tools as tools
-tools.display_dataframe_to_user(
-    name="Matriz Q Normalizada",
-    dataframe=pd.DataFrame(Q_norm, columns=[f"A{i}" for i in range(n_states)])
-)
